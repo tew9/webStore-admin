@@ -8,8 +8,8 @@ import { Form } from 'react-bootstrap';
 
 const Inputs = (props) => {
   return(
-    <Form.Group controlId={props.class}>
-      <Form.Control type={props.type} required minLength={props.min} placeholder={props.placeholder} 
+    <Form.Group>
+      <Form.Control type={props.type} placeholder={props.placeholder} 
       />
 
       <Form.Text className="text-muted">
