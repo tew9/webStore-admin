@@ -5,7 +5,7 @@ import Layout from "../../components/Layout/index";
 import Inputs from "../../components/UI/Inputs";
 import { login } from "../../actions";
 import { Redirect } from "react-router";
-import { isUserLoggedIn } from '../../actions/auth.action'
+import * as authAction from '../../actions/auth.action'
 /**
  * @author
  * @function Signin
@@ -17,13 +17,13 @@ const Signin = (props) => {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
-  const {authenticated} = useSelector(state=>state.auth)
+  const auth = useSelector(state=>state.auth)
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    if(!authenticated)
-      dispatch(isUserLoggedIn())
+    if(!auth.authenticated  && localStorage.getItem('token')){
+      dispatch(authAction.isUserLoggedIn());
+    }
   })
 
   const adminLogin = (e) => {
@@ -35,7 +35,7 @@ const Signin = (props) => {
     dispatch(login(user));
   }
 
-  if(authenticated){
+  if(auth.authenticated){
     return <Redirect to='/'/>
   }
 

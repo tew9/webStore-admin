@@ -14,7 +14,6 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-
   switch(action.type){
     case authConstants.LOGIN_REQUEST:
       state = {
@@ -28,12 +27,13 @@ export default (state = initialState, action) => {
         user: action.payload.user,
         token: action.payload.token,
         authenticated: true,
-        authenticating: false
       }
       break;
     case authConstants.LOGIN_FAILURE:
       state = {
-        error: action.payload.error
+        ...state,
+        error: action.payload.error,
+        authenticating: true,
       }
       break;
     case authConstants.ALREADY_LOGGEDIN:

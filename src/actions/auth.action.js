@@ -3,36 +3,34 @@ import axios from '../utilities/axios';
 
 export const login = (user) => {
   return async (dispatch) => {
-    dispatch({type: authConstants.LOGIN_REQUEST})
-    const res = await axios.post('/signin', {
-      email: user.email,
-      password: user.password
-    });
-    
-    if(res.status === 200){
-      console.log(res.data)
-      const {token, user} = res.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-
-      dispatch({
-        type: authConstants.LOGIN_SUCCESS,
-        payload: {
-          user,
-          token
-        }
-      })
-    }
-    else{
-      console.log(res)
-      if(res.status === 400){
+    dispatch({type: authConstants.LOGIN_REQUEST, payload: {authenticating: true}})
+    try{
+      const res = await axios.post('/signin', {
+        email: user.email,
+        password: user.password
+      });
+      
+      if(res.status === 200){
+        const {token, user} = res.data;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('authenticated', true);
         dispatch({
-          type: authConstants.LOGIN_FAILURE,
+          type: authConstants.LOGIN_SUCCESS,
           payload: {
-            error: res.data.error
+            user,
+            token
           }
         })
       }
+    }
+    catch{
+      dispatch({
+        type: authConstants.LOGIN_FAILURE,
+        payload: {
+          error: "Username or password is incorrect, please try again"
+        }
+      })
     }
   }
 }
@@ -41,12 +39,12 @@ export const isUserLoggedIn = () => {
   return async dispatch => {
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
-    if(token){
+    if(token !== null){
       dispatch({
-        type: authConstants.ALREADY_LOGGEDIN,
-        payload: {authenticated: true,
-        token: token,
-        user: user} 
+        type: authConstants.LOGIN_SUCCESS,
+        payload: {
+          token, user
+        }
       })
     }else{
       dispatch({
