@@ -3,15 +3,14 @@ import { Form } from 'react-bootstrap';
 
 /**
 * @author
-* @function Inputs
+* @function Input
 **/
 
-const Inputs = (props) => {
+const Input = (props) => {
   return(
-    <Form.Group>
-      <Form.Control type={props.type} placeholder={props.placeholder} 
+    <Form.Group className={props.class}>
+      <Form.Control type={props.type} placeholder={props.placeholder} value={props.value} onChange={props.onChange}
       />
-
       <Form.Text className="text-muted">
         { props.errorMessage}
       </Form.Text>
@@ -19,4 +18,4 @@ const Inputs = (props) => {
   )
  }
 
-export default Inputs
+export default Input

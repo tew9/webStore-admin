@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/Layout/index";
-import Inputs from "../../components/UI/Inputs";
+import Input from "../../components/UI/Inputs";
 import { login } from "../../actions";
 import { Redirect } from "react-router";
 import * as authAction from '../../actions/auth.action'
@@ -57,28 +57,16 @@ const Signin = (props) => {
         <Row style={{ marginTop: "5rem" }}>
           <Col md={{ span: 6, offset: 3 }}>
             <Form onSubmit={adminLogin}>
-              <Form.Group>
-                <Form.Control
-                  type="email"
-                  placeholder="email"
-                  value={email}
-                  onChange={onEmailChange}
-                />
-
-                <Form.Text className="text-muted">
-                  {notice}
-                </Form.Text>
-              </Form.Group>
-              {/* <Inputs
+              <Input
                 class="forBasicEmail"
                 type="email"
                 value={email}
                 onChange={onEmailChange}
                 placeholder="Enter your Email"
-                errorMessage="We'll never share your email"
-              /> */}
+                errorMessage={notice}
+              />
 
-              {/* <Inputs
+              <Input
                 class="forBasicPassword"
                 type="password"
                 value={password}
@@ -86,20 +74,7 @@ const Signin = (props) => {
                 placeholder="Password"
                 min={6}
                 errorMessage={props.errorMessage}
-              /> */}
-
-              <Form.Group>
-                <Form.Control
-                  type='password'
-                  value={password}
-                  onChange={onPassChange}
-                  placeholder='Enter Password'
-                />
-
-                <Form.Text className="text-muted">
-                  {props.errorMessage}
-                </Form.Text>
-              </Form.Group>
+              />
 
               <Button variant="primary" type="submit" block>
                 Signin
