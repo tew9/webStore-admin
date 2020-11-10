@@ -13,7 +13,7 @@ const initialState = {
   error: ''
 }
 
-export default (state = initialState, action) => {
+export default (state = initialState, action)=>{
   switch(action.type){
     case authConstants.LOGIN_REQUEST:
       state = {
@@ -41,7 +41,16 @@ export default (state = initialState, action) => {
         authenticated: action.payload.authenticated,
         token: action.payload.token
       }
+      break;
+    case authConstants.LOGOUT_REQUEST:
+      state ={
+        ...state,
+        authenticated: action.payload.authenticated,
+        token: action.payload.token,
+        user: action.payload.user
+      }
+      break
+    default: 
+      return state
   }
-  return state;
-
 }

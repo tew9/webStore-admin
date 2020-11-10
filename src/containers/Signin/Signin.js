@@ -5,7 +5,7 @@ import Layout from "../../components/Layout/index";
 import Input from "../../components/UI/Inputs";
 import { login } from "../../actions";
 import { Redirect } from "react-router";
-import * as authAction from '../../actions/auth.action'
+
 /**
  * @author
  * @function Signin
@@ -14,17 +14,10 @@ import * as authAction from '../../actions/auth.action'
 const Signin = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
   const auth = useSelector(state=>state.auth)
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if(!auth.authenticated  && localStorage.getItem('token')){
-      dispatch(authAction.isUserLoggedIn());
-    }
-  })
 
   const adminLogin = (e) => {
     e.preventDefault();
@@ -60,6 +53,7 @@ const Signin = (props) => {
               <Input
                 class="forBasicEmail"
                 type="email"
+                required={true}
                 value={email}
                 onChange={onEmailChange}
                 placeholder="Enter your Email"
@@ -70,6 +64,7 @@ const Signin = (props) => {
                 class="forBasicPassword"
                 type="password"
                 value={password}
+                required={true}
                 onChange={onPassChange}
                 placeholder="Password"
                 min={6}

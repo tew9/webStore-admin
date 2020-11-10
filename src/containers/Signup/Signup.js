@@ -1,49 +1,73 @@
-import React from "react";
+import React, {useState} from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Layout from "../../components/Layout/index";
-import Inputs from "../../components/UI/Inputs/index";
-
+import Input from "../../components/UI/Inputs";
+import { Redirect } from "react-router";
+import { useSelector } from "react-redux";
 /**
  * @author
  * @function Signup
  **/
 
 const Signup = (props) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const {authenticated} = useSelector(state=>state.auth)
+
+  if(authenticated){
+    return <Redirect to='/'/>
+  }
+
   return (
     <Layout>
       <Container>
         <Row style={{ marginTop: "5rem" }}>
           <Col md={{ span: 6, offset: 3 }}>
             <Form>
-              <Inputs
+              <Input
                 class="forBasicFirstName"
                 type="text"
+                value={firstName}
+                required={true}
+                onChange = {(e) => setFirstName(e.target.value)}
                 placeholder="First Name"
                 errorMessage={props.errorMessage}
                 min={3}
               />
 
-              <Inputs
+              <Input
                 class="forBasicLastName"
                 type="text"
+                value={lastName}
+                onChange = {(e) => setLastName(e.target.value)}
                 placeholder="Last Name"
+                required={true}
                 errorMessage={props.errorMessage}
                 min={3}
               />
 
-              <Inputs
+              <Input
                 class="forBasicEmail"
                 type="Email"
+                value={email}
+                required={true}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your Email"
                 errorMessage="We'll never share your email"
               />
 
-              <Inputs
+              <Input
                 class="forBasicPassword"
                 type="Password"
                 placeholder="Password"
                 errorMessage={props.errorMessage}
                 min={6}
+                required={true}
+                value={password}
+                onChange={(e)=> setPassword(e.target.value)}
               />
 
               <Button variant="outline-success" type="submit" block>
