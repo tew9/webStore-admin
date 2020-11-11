@@ -3,7 +3,7 @@ import axios from '../utilities/axios';
 
 export const login = (user) => {
   return async (dispatch) => {
-    dispatch({type: authConstants.LOGIN_REQUEST, payload: {authenticating: true}})
+    dispatch({type: authConstants.LOGIN_REQUEST})
     try{
       const res = await axios.post('/signin', {
         email: user.email,
