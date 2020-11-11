@@ -16,7 +16,7 @@ const Signin = (props) => {
   const [password, setPassword] = useState("");
   const [notice, setNotice] = useState("");
 
-  const auth = useSelector(state=>state.auth)
+  const {authenticated, authenticating, user} = useSelector(state=>state.auth)
   const dispatch = useDispatch();
 
   const adminLogin = (e) => {
@@ -27,8 +27,12 @@ const Signin = (props) => {
     };
     dispatch(login(user));
   }
-
-  if(auth.authenticated){
+  
+  if(authenticating){
+    return <p>Loading...</p>
+  }
+  
+  if(authenticated && user.role === 'admin'){
     return <Redirect to='/'/>
   }
 

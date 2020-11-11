@@ -14,7 +14,6 @@ export const login = (user) => {
         const {token, user} = res.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('authenticated', true);
         dispatch({
           type: authConstants.LOGIN_SUCCESS,
           payload: {
@@ -57,15 +56,16 @@ export const isUserLoggedIn = () => {
 
 export const signout = () => {
   return async dispatch => {
-    window.localStorage.clear();
-    dispatch({
-      type: authConstants.LOGOUT_REQUEST,
-      payload: {
-        authenticated: false,
-        token: '',
-        user: ''
-      }
-    })
+    dispatch({type: authConstants.LOGOUT_REQUEST})
+    const res = await axios.post('/signout')
+    if(res){
+      window.localStorage.clear();
+      dispatch({type: authConstants.LOGOUT_SUCCESS})
+    }else{
+      dispatch({type: authConstants.LOGOUT_FAILURE,
+      payload: {error: "something went wrong while loging out!!!"}})
+    }
+   
   }
 }
 

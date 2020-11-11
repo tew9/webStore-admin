@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Layout from "../../components/Layout/index";
+import { signup } from '../../actions/signup.action';
 import Input from "../../components/UI/Inputs";
 import { Redirect } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 /**
  * @author
  * @function Signup
@@ -14,11 +15,27 @@ const Signup = (props) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const {authenticated} = useSelector(state=>state.auth)
-
+  const dispatch = useDispatch();
+  const {isRegistered, registering, message, error} = useSelector(state=>state.signup)
+  const {authenticated} = useSelector(state => state.auth);
+  
   if(authenticated){
     return <Redirect to='/'/>
+  }
+  if(registering){
+    return <p>Loading...</p>
+  }
+
+  const adminRegistration = (e) => {
+    e.preventDefault();
+    const user = {
+      firstName,
+      lastName,
+      email,
+      password,
+      role: 'admin'
+    };
+    dispatch(signup(user));
   }
 
   return (
@@ -26,7 +43,9 @@ const Signup = (props) => {
       <Container>
         <Row style={{ marginTop: "5rem" }}>
           <Col md={{ span: 6, offset: 3 }}>
-            <Form>
+          {isRegistered? <span style={{color: "red"}}>{message}</span>:
+            <span style={{color: "red"}}>{error}</span> }
+            <Form onSubmit={adminRegistration}>
               <Input
                 class="forBasicFirstName"
                 type="text"
