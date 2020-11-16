@@ -9,6 +9,7 @@ import PrivateRoute  from '../src/components/HOC/PrivateRoute'
 import * as authAction from './actions/auth.action'
 import Products from './containers/Products/products';
 import Orders from './containers/Orders/orders';
+import Categories from './containers/Categories/categories';
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
     <div className="App">
       <Switch>
         <PrivateRoute path='/' exact component={Home}/>
+        <PrivateRoute path='/categories' component={ Categories }/>
         <PrivateRoute path='/products' component={ Products }/>
         <PrivateRoute path='/orders' component={ Orders }/>
         <Route path='/signup' component={Signup}/>
