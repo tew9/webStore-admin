@@ -9,6 +9,7 @@ import { Form } from 'react-bootstrap';
 const Input = (props) => {
   return(
     <Form.Group className={props.class}>
+      <label for={props.label}>{props.label}</label>
       <Form.Control type={props.type} placeholder={props.placeholder} value={props.value} onChange={props.onChange} required={props.required} min={props.min}
       />
       <Form.Text className="text-muted">

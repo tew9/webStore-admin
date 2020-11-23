@@ -10,6 +10,7 @@ import * as authAction from './actions/auth.action'
 import Products from './containers/Products/products';
 import Orders from './containers/Orders/orders';
 import Categories from './containers/Categories/categories';
+import { getInitialData } from "./actions/intialData.action";
 
 const App = () => {
 
@@ -21,6 +22,7 @@ const App = () => {
     if(!authenticated && token){
       dispatch(authAction.isUserLoggedIn());
     } 
+    dispatch(getInitialData())
   })
 
   return (
